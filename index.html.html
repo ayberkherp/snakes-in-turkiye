@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Türkiye Herpetoloji Rehberi</title>
+    <style>
+#iletisimFormu textarea { resize: vertical; }
+#iletisimFormu input, #iletisimFormu textarea { border: 2px solid #1e5631; }
+
+
+.lightbox {
+    display: none; /* Normalde gizli */
+    position: fixed;
+    z-index: 9999;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8); /* Yarı şeffaf siyah */
+    justify-content: center;
+    align-items: center;
+    cursor: zoom-out;
+}
+
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 80%;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(255,255,255,0.2);
+}
+html {
+            scroll-behavior: smooth;
+        }
+        * { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important; box-sizing: border-box; }
+        body { 
+            background: linear-gradient(135deg, #f4f7f6 0%, #e8ede9 100%);
+            background-image: radial-gradient(#d1d8d3 1px, transparent 1px);
+            background-size: 20px 20px;
+            margin: 0; padding: 0;
+        }
+        .banner { background-color: #1e5631; width: 100%; height: 70px; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 0px; }
+        .banner-icerik { display: flex; align-items: center; gap: 15px; }
+        .baslik { color: white; font-size: 32px; margin: 0; }
+        .logo { height: 68px; width: auto; margin-top: -2px; }
+
+        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+        .yilan-kart { display: flex; align-items: center; gap: 20px; padding: 20px; margin-bottom: 20px; background: white; border-radius: 12px; border-left: 8px solid #1e5631; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+transition: transform 0.3s ease, box-shadow 0.3s ease; 
+
+ }
+.yilan-kart:hover {
+    transform: translateY(-8px); 
+    box-shadow: 0 15px 25px rgba(0,0,0,0.15); 
+    cursor: pointer;
+}
+        .yilan-foto { width: 200px; height: 150px; object-fit: cover; border-radius: 10px; }
+
+        h2 { margin: 0 0 10px 0; color: #2c3e50; font-size: 24px; }
+        h3 { color: #1e5631; text-transform: uppercase; margin: 10px 0 5px 0; font-size: 14px; }
+        p { line-height: 1.6; color: #444; margin: 0; font-size: 16px; }
+        .bolum-baslik { font-size: 28px; color: #1e5631; margin: 30px 0 20px 0; }
+
+.nav-menu {
+    background-color: #143d22; 
+    padding: 15px 0;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.nav-menu a {
+    color: white;
+    text-decoration: none;
+    margin: 0 20px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.nav-menu a:hover {
+    color: #a8d08d; /* Fareyle üzerine gelince renk değişimi */
+    text-decoration: underline;
+}
+
+
+.dark-mode {
+    background: #121212 !important;
+}
+
+.dark-mode body {
+    background: #1a1a1a !important;
+}
+
+.dark-mode .yilan-kart {
+    background: #2c2c2c !important;
+    border-left: 8px solid #a8d08d !important;
+}
+
+.dark-mode h2, .dark-mode p {
+    color: #e0e0e0 !important;
+}
+
+.dark-mode .bolum-baslik {
+    color: #a8d08d !important;
+}
+
+
+    </style>
+</head>
+<body>
+
+<header class="banner">
+    <div class="banner-icerik">
+        <h1 class="baslik">Türkiye Herpetoloji Rehberi</h1>
+        <img src="logo.png" alt="Logo" class="logo">
+    </div>
+</header>
+
+
+
+
+
+
+
+<nav class="nav-menu">
+   <a href="#ana-sayfa" onclick="tumunuGoster()">Ana Sayfa</a>
+    <a href="#engerekler" onclick="tumunuGoster()">Zehirli Engerekler</a>
+    <a href="#kobra" onclick="tumunuGoster()">Çöl Kobrası</a>
+    <a href="#iletisim" onclick="tumunuGoster()">İletişim</a>
+
+    
+    <a href="#" onclick="event.preventDefault(); karanlikModuAc();" 
+       style="cursor: pointer; color: #a8d08d; font-weight: bold; border: 1px solid #a8d08d; padding: 5px 10px; border-radius: 5px; margin-left: 20px;">
+       Gece Modu
+    </a>
+</nav>
+<div class="container" style="text-align: center; margin-bottom: 20px;">
+    <input type="text" id="arama" onkeyup="yilanAra()" placeholder="Yılan türü ara..." 
+           style="width: 70%; padding: 12px; border: 2px solid #1e5631; border-radius: 8px;">
+    
+    <button onclick="rastgeleYilan()" style="padding: 12px; border: 2px solid #1e5631; background: #1e5631; color: white; border-radius: 8px; cursor: pointer; margin-left: 0px;">
+        Rastgele Tür
+    </button>
+</div>
+
+<div class="container">
+    <main>
+
+
+       <section class="sistem-karti">
+            <h2>Hoş Geldiniz</h2>
+            <p>Bu site, Türkiye coğrafyasında yaşayan yılan türlerini, davranışlarını ve ekolojik önemlerini tanıtmak amacıyla hazırlanmıştır.</p>
+        </section>
+
+        <h1 id="engerekler" class="bolum-baslik">Türkiye'nin Zehirli Engerekleri</h1>
+
+        <section class="yilan-kart">
+        <img src="engerek.jpg" alt="Şeritli Engerek" class="yilan-foto">
+        <div class="metin-kutusu">
+            <h2>1- Şeritli Engerek (*Montivipera xanthina*)</h2>
+            <p>Şeritli engerek, Türkiye ve Yunanistan coğrafyasına özgü, oldukça dikkat çekici bir zehirli engerek türüdür...</p>
+            <h3>Yaşam Alanı (Habitat)</h3>
+            <p>Bu tür, özellikle kayalık yamaçları, taşlık bölgeleri ve çalılık alanları tercih eder...</p>
+        </div>
+    </section>
+
+
+
+
+
+
+
+<section class="yilan-kart">
+    <img src="kocaengerek.jpeg" alt="Koca Engerek" class="yilan-foto">
+    
+    <div class="metin-kutusu">
+        <h2>2- Koca Engerek (*Macrovipera lebetina*)</h2>
+        <p>Koca engerek, Türkiye'nin en büyük ve en iri yapılı engerek türlerinden biridir. Oldukça güçlü bir zehir yapısına sahip olup, genellikle sakin ancak tehlike anında son derece agresif bir tutum sergileyebilir.</p>
+        
+        <h3>Yaşam Alanı (Habitat)</h3>
+        <p>Geniş bir yaşam alanına sahiptir; kayalık yamaçlar, taşlık araziler, çalılıklar ve bazen tarım alanları ile bahçelerde gözlemlenebilir. Kurak ve yarı kurak bölgelere mükemmel adaptasyon sağlamıştır.</p>
+    </div>
+</section>
+
+
+
+
+
+<section class="yilan-kart">
+    <img src="agriengerek.jpg" alt="Ağrı Engereği" class="yilan-foto">
+    
+    <div class="metin-kutusu">
+        <h2>3- Ağrı Engereği (*Montivipera raddei*)</h2>
+        <p>Ağrı engereği, Türkiye'nin doğu bölgelerinde yaşayan, oldukça nadir ve estetik desenlere sahip bir engerek türüdür. Renkleri, yaşadığı bölgenin toprak ve kaya yapısıyla mükemmel bir kamuflaj sağlar.</p>
+        
+        <h3>Yaşam Alanı (Habitat)</h3>
+        <p>Genellikle yüksek rakımlı kayalık bölgelerde, dağlık alanların yamaçlarında ve serin yerlerde bulunur. Zorlu iklim koşullarına karşı oldukça dayanıklı bir türdür.</p>
+    </div>
+</section>
+
+
+
+<section class="yilan-kart">
+    <img src="coruhengerek.jpg" alt="Çoruh Engereği" class="yilan-foto">
+    
+    <div class="metin-kutusu">
+        <h2>4- Çoruh Engereği (*Vipera darevskii*)</h2>
+        <p>Çoruh engereği, Türkiye'nin kuzeydoğusundaki dar bir coğrafyada yaşayan, oldukça küçük yapılı ama bir o kadar özgün bir engerek türüdür. Renk tonları, yaşadığı bölgenin kayalık yapısına tam uyum sağlar.</p>
+        
+        <h3>Yaşam Alanı (Habitat)</h3>
+        <p>Daha çok yüksek rakımlı, kayalık ve taşlık alanlarda gözlemlenir. Bölgenin serin ve nemli mikro klima özelliklerini tercih eden, hassas bir türdür.</p>
+    </div>
+</section>
+
+
+<section class="yilan-kart">
+    <img src="kucukengerek.jpg" alt="Küçük Engerek" class="yilan-foto">
+    
+    <div class="metin-kutusu">
+        <h2>5- Küçük Engerek (*Vipera ursinii*)</h2>
+        <p>Küçük engerek, isminden de anlaşılacağı üzere oldukça ufak yapılı bir türdür. Türkiye'deki engerekler arasında en az zehirli ve en zararsız kabul edilenlerden biridir, ancak yine de doğada temkinli yaklaşılmalıdır.</p>
+        
+        <h3>Yaşam Alanı (Habitat)</h3>
+        <p>Genellikle yüksek rakımlı dağ çayırlarında ve alpin çayırlarda yaşar. Düşük sıcaklıklara dayanıklı olması, onu yüksek dağ ekosistemlerinin vazgeçilmez bir parçası yapar.</p>
+    </div>
+</section>
+
+
+
+<section class="yilan-kart">
+    <img src="burunluengerek.jpeg" alt="Burunlu Engerek" class="yilan-foto">
+    
+    <div class="metin-kutusu">
+        <h2>6- Burunlu Engerek (*Vipera ammodytes*)</h2>
+        <p>Burunlu engerek, burnunun ucundaki karakteristik yumuşak çıkıntı sayesinde diğer türlerden kolayca ayırt edilir. Avrupa ve Türkiye'nin en zehirli yılanlarından biri olarak bilinir, bu nedenle oldukça dikkatli olunmalıdır.</p>
+        
+        <h3>Yaşam Alanı (Habitat)</h3>
+        <p>Kayalık yamaçları, kuru taşlık alanları ve çalılıkları çok sever. Genellikle güneşlenmeyi tercih ettiği için günün sıcak saatlerinde taşların üzerinde görülebilir.</p>
+    </div>
+</section>
+
+<section class="yilan-kart">
+    <img src="kafkasengerek.jpg" alt="Kafkas Engereği" class="yilan-foto">
+    
+    <div class="metin-kutusu">
+        <h2>7- Kafkas Engereği (*Vipera kaznakovi*)</h2>
+        <p>Kafkas engereği, özellikle gövdesindeki canlı renkleri ve karakteristik siyah desenleri ile dikkat çeken, oldukça nadir ve koruma altında olan bir engerek türüdür.</p>
+        
+        <h3>Yaşam Alanı (Habitat)</h3>
+        <p>Genellikle Doğu Karadeniz bölgesinin nemli ve ormanlık alanlarında, dere kenarlarında ve yamaçlarda yaşar. Diğer engerek türlerine göre nemli ortamları daha çok tercih eder.</p>
+    </div>
+</section>
+
+
+
+<section class="yilan-kart">
+    <img src="baranengerek.jpeg" alt="Baran Engereği" class="yilan-foto">
+    
+    <div class="metin-kutusu">
+        <h2>8- Baran Engereği (*Vipera barani*)</h2>
+        <p>Baran engereği, Türkiye'ye endemik olan (sadece bizim coğrafyamızda yaşayan) nadir bir engerek türüdür. Renk ve desen yapısı ile bulunduğu ortamda mükemmel bir gizlenme yeteneğine sahiptir.</p>
+        
+        <h3>Yaşam Alanı (Habitat)</h3>
+        <p>Daha çok kuzeybatı Anadolu'nun yüksek ve nemli ormanlık bölgelerinde, bazen de açık yamaçlarda ve taşlık alanlarda yaşar. Çevresel faktörlere karşı oldukça hassas bir türdür.</p>
+    </div>
+</section>
+
+
+
+
+
+<section class="yilan-kart">
+    <img src="cayirengerek.jpeg" alt="Çayır Engereği" class="yilan-foto">
+    
+    <div class="metin-kutusu">
+        <h2>9- Çayır Engereği (*Vipera pontica*)</h2>
+        <p>Çayır engereği, Türkiye'nin Karadeniz bölgesine özgü, diğer türlere kıyasla daha kısıtlı bir alanda yaşayan nadir bir türdür. Vücut yapısı ve renk geçişleri, yaşadığı bölgenin toprak örtüsüyle büyük benzerlik gösterir.</p>
+        
+        <h3>Yaşam Alanı (Habitat)</h3>
+        <p>İsminden de anlaşılabileceği gibi, dağlık kesimlerdeki nemli çayırlar, orman açıklıkları ve yüksek rakımlı düzlüklerde vakit geçirmeyi tercih eder.</p>
+    </div>
+</section>
+
+
+<section class="yilan-kart">
+    <img src="wagner.jpeg" alt="Wagner Engereği" class="yilan-foto">
+    
+    <div class="metin-kutusu">
+        <h2>10- Wagner Engereği (*Vipera wagneri*)</h2>
+        <p>Wagner engereği, özellikle Doğu Anadolu'nun yüksek dağlık bölgelerinde yaşayan, oldukça kısıtlı bir yayılım alanına sahip ve nesli tehlike altında olan çok özel bir engerek türüdür.</p>
+        
+        <h3>Yaşam Alanı (Habitat)</h3>
+        <p>Yüksek rakımlı, kayalık ve taşlık alanları, özellikle volkanik kayaçların bulunduğu yamaçları tercih eder. Soğuk ve sert iklim koşullarına karşı oldukça dirençlidir.</p>
+    </div>
+</section>
+
+
+
+        <section class="yilan-kart">
+    <img src="kafkasburunlu.jpeg" alt="Kafkas Burunlu Engereği" class="yilan-foto">
+    
+    <div class="metin-kutusu">
+        <h2>11- Kafkas Burunlu Engereği (*Vipera kaznakovi*)</h2>
+        <p>Kafkas burunlu engereği, özellikle Doğu Karadeniz ve Kafkasya'nın yüksek kesimlerinde yaşayan, çarpıcı renk tonları ve desenleriyle bilinen, oldukça nadir ve özel bir türdür.</p>
+        
+        <h3>Yaşam Alanı (Habitat)</h3>
+        <p>Genellikle nemli orman zeminlerini, dere kenarlarını ve sık bitki örtüsüne sahip yamaçları tercih eder. Nemli ortamları sevmesi onu diğer engerek türlerinden ayıran temel özelliklerinden biridir.</p>
+    </div>
+</section>
+
+
+
+
+       <section class="yilan-kart">
+    <img src="anadolu.jpg" alt="Anadolu Engereği" class="yilan-foto">
+    
+    <div class="metin-kutusu">
+        <h2>12- Anadolu Engereği (*Montivipera xanthina*)</h2>
+        <p>Anadolu engereği, geniş bir yayılım alanına sahip, Türkiye'nin en karakteristik engerek türlerinden biridir. Güçlü yapısı ve belirgin desenleri ile bulunduğu ortama kolayca uyum sağlar.</p>
+        
+        <h3>Yaşam Alanı (Habitat)</h3>
+        <p>Genellikle kayalık yamaçları, taşlık bölgeleri, eski duvarları ve çalılık alanları tercih eder. İnsan yerleşimlerine yakın bölgelerde de zaman zaman gözlemlenebilir.</p>
+    </div>
+</section>
+
+
+<section class="yilan-kart">
+    <img src="filistinengeregi.jpg" alt="Filistin Engereği" class="yilan-foto">
+    
+    <div class="metin-kutusu">
+        <h2>13- Filistin Engereği (*Daboia palaestinae*)</h2>
+        <p>Filistin engereği, özellikle bölgedeki tarım alanları ve insan yerleşimlerine yakın bölgelerde sıkça görülebilen, zehirli ve oldukça uyumlu bir türdür. Beslenme konusunda oldukça çeşitli bir menüye sahiptir.</p>
+        
+        <h3>Yaşam Alanı (Habitat)</h3>
+        <p>Tarım arazileri, zeytinlikler, taşlık alanlar ve çalılıklar en sevdiği mekanlardır. İnsan etkileşiminin olduğu bölgelere adaptasyon yeteneği oldukça yüksektir.</p>
+    </div>
+</section>
+
+
+    </main>
+
+<h1 id="kobra" class="bolum-baslik">Türkiye'nin Tek Kobra Türü</h1> <section class="yilan-kart">
+    <img src="colkobrasi.jpeg" alt="Çöl Kobrası" class="yilan-foto">
+    
+    <div class="metin-kutusu">
+        <h2>14- Çöl Kobrası (*Walterinnesia aegyptia*)</h2>
+        <p>Çöl kobrası, Türkiye'nin güneydoğu bölgesinde yaşayan, parlak siyah pulları ve oldukça ürkütücü görünümüyle dikkat çeken, son derece zehirli ve nadir bulunan bir yılan türüdür.</p>
+        
+        <h3>Yaşam Alanı (Habitat)</h3>
+        <p>Kurak ve sıcak çöl benzeri arazileri, taşlık ve kumlu alanları tercih eder. Genellikle gececil bir türdür, bu yüzden gündüzleri toprak altındaki oyuklarda veya taşların altında gizlenerek vakit geçirir.</p>
+    </div>
+</section>
+
+<h1 id="iletisim" class="bolum-baslik">İletişim</h1> 
+<section class="sistem-karti">
+<form id="iletisimFormu">
+    <input type="text" id="adSoyad" placeholder="Adın Soyadın" required style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+    <input type="email" id="email" placeholder="E-posta Adresin" required style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+    <textarea id="mesaj" placeholder="Mesajın..." required style="width: 100%; padding: 10px; height: 100px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;"></textarea>
+    
+    <button type="button" onclick="formuGonder()" style="padding: 10px 20px; background: #1e5631; color: white; border: none; border-radius: 5px; cursor: pointer;">Gönder</button>
+</form>    
+<p>Bana herpetoloji veya web sitesi ile ilgili sorularını buradan sorabilirsin!</p>
+
+</section>
+
+<script>
+        
+    
+
+window.addEventListener('load', function() {
+    if (window.location.hash) {
+        history.replaceState(null, null, ' ');
+    }
+    window.scrollTo(0, 0);
+});
+    function yilanAra() {
+        let input = document.getElementById('arama').value.toUpperCase();
+        let kartlar = document.getElementsByClassName('yilan-kart');
+
+        for (let i = 0; i < kartlar.length; i++) {
+            let isim = kartlar[i].getElementsByTagName("h2")[0].innerText.toUpperCase();
+            if (isim.indexOf(input) > -1) {
+                kartlar[i].style.display = "";
+            } else {
+                kartlar[i].style.display = "none";
+            }
+        }
+    }
+
+document.querySelectorAll('.yilan-foto').forEach(foto => {
+    foto.onclick = () => {
+        document.querySelector('.lightbox').style.display = 'flex';
+        document.querySelector('#buyuk-foto').src = foto.src;
+    };
+});
+
+
+function kapat() {
+    document.querySelector('.lightbox').style.display = 'none';
+}
+
+
+function karanlikModuAc() {
+    var element = document.body;
+    element.classList.toggle("dark-mode");
+    
+    var btn = document.querySelector('button');
+    if (element.classList.contains("dark-mode")) {
+        btn.innerHTML = "Gündüz Modu";
+    } else {
+        btn.innerHTML = "Gece Modu";
+    }
+}
+
+function rastgeleYilan() {
+    let kartlar = document.getElementsByClassName('yilan-kart');
+    let sistemKartlari = document.getElementsByClassName('sistem-karti');
+    
+    for (let i = 0; i < kartlar.length; i++) {
+        kartlar[i].style.display = "none";
+    }
+    for (let i = 0; i < sistemKartlari.length; i++) {
+        sistemKartlari[i].style.display = "none";
+    }
+    
+    let rastgeleIndex = Math.floor(Math.random() * kartlar.length);
+    kartlar[rastgeleIndex].style.display = "flex";
+    kartlar[rastgeleIndex].scrollIntoView({ behavior: 'smooth' });
+} // <-- BU PARANTEZİ UNUTMA!
+
+function tumunuGoster() {
+    let kartlar = document.getElementsByClassName('yilan-kart');
+    let sistemKartlari = document.getElementsByClassName('sistem-karti');
+    
+    for (let i = 0; i < kartlar.length; i++) {
+        kartlar[i].style.display = ""; 
+    }
+    for (let i = 0; i < sistemKartlari.length; i++) {
+        sistemKartlari[i].style.display = ""; 
+    }
+
+
+
+function formuGonder() {
+    // Burada formun dolu olup olmadığını kontrol edebilirsin
+    let ad = document.getElementById("adSoyad").value;
+    
+    if(ad !== "") {
+        alert("Mesajın bize ulaştı, teşekkürler!");
+        document.getElementById("iletisimFormu").reset();
+    } else {
+        alert("Lütfen alanları doldur!");
+    }
+}
+</script>
+<div class="lightbox" id="foto-kutu" onclick="kapat()">
+    <img id="buyuk-foto" src="" alt="Büyütülmüş Fotoğraf">
+</div>
+
+
+</body>
+</html>
